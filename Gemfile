@@ -3,8 +3,10 @@ ruby '2.0.0'
 #ruby-gemset=railstt_4_0
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.0.4'
-gem 'bootstrap-sass', git: 'https://github.com/twbs/bootstrap-sass'
+gem 'rails', '4.0.3'
+gem 'sprockets', '=2.11.0'
+gem 'sass-rails', '~> 4.0.0'
+gem 'bootstrap-sass', '~> 3.1.1'
 gem 'bcrypt-ruby', '3.1.2'
 gem 'faker', '1.1.2'
 gem 'will_paginate', '3.0.4'
@@ -27,9 +29,6 @@ group :test do
   gem 'database_cleaner', github: 'bmabey/database_cleaner'
   gem 'libnotify', '0.8.0'
 end
-
-# Use SCSS for stylesheets
-gem 'sass-rails', '~> 4.0.3'
 
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '2.1.1'
