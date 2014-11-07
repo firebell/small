@@ -16,6 +16,9 @@ describe "Authentication" do
 
       it { should have_title('Sign in') }
       it { should have_error_message('Invalid') }
+      it { should_not have_link('Profile') }
+      it { should_not have_link('Settings') }
+      it { should_not have_link('Sign out', href: signout_path) }
 
       describe "after visiting another page" do
         before { click_link "Home" }
@@ -140,6 +143,39 @@ describe "Authentication" do
       describe "submitting a DELETE request to the Users#destroy action" do
         before { delete user_path(user) }
         specify { expect(response).to redirect_to(root_url) }
+      end
+    end
+
+    describe "for signed-users" do
+      let(:user) { FactoryGirl.create(:user) }
+      #let(:wrong_user) { FactoryGirl.create(:user, email: "wrong@example.com") }
+
+      describe "request to new user" do
+        before do
+          sign_in user, no_capybara: true
+
+      @user_new = {name: "Example User", 
+                   email: "user@example.com", 
+                   password: "foobar", 
+                   password_confirmation: "foobar"} 
+      post users_path, user: @user_new
+      #post users_path, user: user.attributes
+        end
+        #specify { expect(response.body).not_to match('Sign up') }
+        subject { page }
+        it { should_not have_selector('div.alert.alert-success') }
+        specify { expect(response).to redirect_to(root_path) }
+      end
+
+      describe "request to create user" do
+        before do
+          sign_in user, no_capybara: true
+          get new_user_path
+        end
+
+        subject { page }
+        specify { expect(response.body).not_to match('Create my account') }
+        specify { expect(response).to redirect_to(root_path) }
       end
     end
   end
